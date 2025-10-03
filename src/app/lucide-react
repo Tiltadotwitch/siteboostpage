@@ -8,11 +8,3 @@ import {
     Zap, 
     Circle 
 } from 'lucide-react';
-
-import { 
-    Calendar, // GARANTA QUE ESTEJA AQUI!
-    MapPin, 
-    Truck, 
-    Shield, 
-    // ...outros ícones
-} from 'lucide-react';

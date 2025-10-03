@@ -1,47 +1,38 @@
-import React from 'react';
+// Layout Minimalista Final
+// Remove tags que o Next.js lida automaticamente para evitar conflitos de aninhamento DOM.
 
-// O componente layout será simplificado para apenas injetar estilos e renderizar o conteúdo.
-// O ambiente de execução (Canvas) já fornece as tags <html> e <body>.
+// Metadados do site. São apenas informações.
+export const metadata = {
+  title: 'SiteBoost Brasil | Geração de Landing Pages com IA',
+  description: 'Crie landing pages de alta conversão em minutos usando inteligência artificial.',
+};
 
 /**
+ * Componente principal de Layout (RootLayout).
+ *
  * @param {object} props - Propriedades do componente.
- * @param {React.ReactNode} props.children - Conteúdo da página aninhada (o page.tsx).
+ * @param {React.ReactNode} props.children - Conteúdo da página atual (page.tsx)
  */
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <>
-      {/* Injeção de Meta Tags e Estilos Globais no Head (Simulação) */}
-      <meta charSet="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>SiteBoost Brasil | Geração de Landing Pages com IA</title>
+    // A tag <html> é obrigatória.
+    <html lang="pt-BR">
+      {/* O Next.js trata o <head> com o objeto metadata. Omitimos tags manuais. */}
       
-      {/* Link para a fonte Inter */}
-      <link 
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" 
-        rel="stylesheet" 
-      />
-      
-      {/* Estilos aplicados ao <body> via tag <style> */}
-      <style dangerouslySetInnerHTML={{__html: `
-          body {
-              font-family: 'Inter', sans-serif;
-              /* Fundo escuro conforme o tema da landing page */
-              background-color: #0F172A; 
-              margin: 0; /* Garante que o fundo cubra toda a tela */
-          }
-        `}} 
-      />
-      
-      {/* O conteúdo da página (page.tsx) é retornado dentro de um Fragmento.
-          A classe 'antialiased' ajuda na renderização da fonte.
+      {/* A tag <body> é obrigatória.
+          Aplicamos o estilo base (fonte e altura mínima) diretamente aqui.
       */}
-      <div className="antialiased">
+      <body 
+        style={{ fontFamily: 'Inter, sans-serif' }} 
+        className="min-h-screen"
+      >
+        {/* O children (seu page.tsx) será renderizado aqui. */}
         {children}
-      </div>
-    </>
-  )
+      </body>
+    </html>
+  );
 }

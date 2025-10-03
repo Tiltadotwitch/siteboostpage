@@ -1,0 +1,18 @@
+import { 
+    Calendar, // Corrigido!
+    MapPin, 
+    Truck, 
+    Shield, 
+    Wrench, 
+    Settings, 
+    Zap, 
+    Circle 
+} from 'lucide-react';
+
+import { 
+    Calendar, // GARANTA QUE ESTEJA AQUI!
+    MapPin, 
+    Truck, 
+    Shield, 
+    // ...outros ícones
+} from 'lucide-react';

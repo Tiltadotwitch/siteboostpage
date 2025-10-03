@@ -11,143 +11,392 @@ const forkliftData = [
     image: "/gas-forklift.jpg", // Substitua pelo caminho da sua imagem
     features: [
       { icon: Zap, text: "Motor potente" },
-      { icon: Shield, text: "Baixa emissão" },
-      { icon: Wrench, text: "Manutenção simplificada" },
-    ],
-  },
-  {
-    name: "Empilhadeira Elétrica",
-    year: 2023,
-    capacity: "2.0 Toneladas",
-    description: "Perfeita para ambientes internos, silenciosa e totalmente sustentável.",
-    image: "/electric-forklift.jpg", // Substitua pelo caminho da sua imagem
-    features: [
-      { icon: Settings, text: "Operação silenciosa" },
-      { icon: Circle, text: "Zero emissão de poluentes" },
-      { icon: Calendar, text: "Bateria de longa duração" }, // Ícone Calendar usado aqui
-    ],
-  },
-  {
-    name: "Empilhadeira Diesel",
-    year: 2021,
-    capacity: "5.0 Toneladas",
-    description: "Máxima força para cargas pesadas e trabalho contínuo em pátios.",
-    image: "/diesel-forklift.jpg", // Substitua pelo caminho da sua imagem
-    features: [
-      { icon: Zap, text: "Alta capacidade de carga" },
-      { icon: Truck, text: "Excelente tração" },
-      { icon: Wrench, text: "Robustez incomparável" },
-    ],
-  },
-];
+      "use client"
 
-export default function Home() {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Navbar */}
-      <header className="bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-3">
-            <Truck className="h-6 w-6 text-blue-600" />
-            <span className="text-2xl font-bold text-gray-800">USD Empilhadeiras</span>
-          </div>
-          <nav className="hidden md:flex space-x-8">
-            <a href="#frota" className="text-gray-600 hover:text-blue-600 transition duration-150">Frota</a>
-            <a href="#localizacao" className="text-gray-600 hover:text-blue-600 transition duration-150">Localização</a>
-            <a href="#contato" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-150">Fale Conosco</a>
-          </nav>
-          {/* Mobile menu button hidden for brevity */}
-        </div>
-      </header>
+      import { Button } from "@/components/ui/button"
+      import { Card, CardContent } from "@/components/ui/card"
+      import { Badge } from "@/components/ui/badge"
+      import { Separator } from "@/components/ui/separator"
+      import { 
+        Zap, 
+        Clock, 
+        Download, 
+        Shield, 
+        Rocket, 
+        Star, 
+        CheckCircle, 
+        Users, 
+        TrendingUp,
+        Sparkles,
+        Timer,
+        Award
+      } from "lucide-react"
 
-      {/* Hero Section */}
-      <section className="bg-blue-600 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-extrabold mb-4">A Força que Seu Negócio Precisa</h1>
-          <p className="text-xl mb-8">Locação e Venda de Empilhadeiras de Alta Performance.</p>
-          <a href="#contato" className="bg-white text-blue-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition duration-300 transform hover:scale-105">Solicite um Orçamento</a>
-        </div>
-      </section>
-
-      {/* Frota Section */}
-      <section id="frota" className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-extrabold text-gray-800 text-center mb-12">Nossa Frota de Empilhadeiras</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {forkliftData.map((forklift) => (
-              <div key={forklift.name} className="bg-white rounded-xl shadow-2xl overflow-hidden hover:shadow-blue-300 transition duration-300">
-                <div className="h-48 bg-gray-200 flex items-center justify-center">
-                  {/* Substitua o componente Image por uma div temporária ou adicione suas imagens */}
-                  <span className="text-gray-500 text-sm">Espaço para Imagem: {forklift.name}</span>
+      export default function LandingPage() {
+        return (
+          <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+            {/* Header com CTA */}
+            <header className="container mx-auto px-4 py-6">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-8 h-8 text-purple-400" />
+                  <span className="text-2xl font-bold text-white">SiteBoost Brasil</span>
                 </div>
-                <div className="p-6">
-                  <h4 className="text-xl font-bold text-gray-900 mb-2">{forklift.name}</h4>
-                  <div className="flex items-center text-gray-600 mb-2">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    <span className="text-sm">{forklift.year}</span>
-                    <span className="mx-2">•</span>
-                    <span className="text-sm font-semibold">{forklift.capacity}</span>
+                <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold px-8 py-3 rounded-full shadow-2xl hover:scale-105 transition-all duration-300">
+                  CRIAR MINHA LANDING PAGE AGORA
+                </Button>
+              </div>
+            </header>
+
+            {/* Hero Section */}
+            <section className="container mx-auto px-4 py-20 text-center">
+              <div className="max-w-4xl mx-auto">
+                {/* Headline Impactante */}
+                <h1 className="text-5xl md:text-7xl font-black text-white mb-6 leading-tight">
+                  CRIE LANDING PAGES EM 
+                  <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> 2 MINUTOS</span>
+                </h1>
+          
+                {/* Subtítulo (Dor + Solução) */}
+                <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                  Pare de perder clientes por não ter uma landing page profissional. 
+                  Nossa IA cria páginas de alta conversão instantaneamente, sem código e sem complicação.
+                </p>
+
+                {/* CTA Principal */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                  <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold px-12 py-4 text-xl rounded-full shadow-2xl hover:scale-105 transition-all duration-300">
+                    <Rocket className="w-6 h-6 mr-2" />
+                    COMEÇAR AGORA GRÁTIS
+                  </Button>
+                  <p className="text-gray-400 text-sm">✨ Teste grátis • Sem cartão de crédito</p>
+                </div>
+
+                {/* Prova Social Rápida */}
+                <div className="flex justify-center items-center gap-8 text-gray-300">
+                  <div className="flex items-center gap-2">
+                    <Users className="w-5 h-5 text-purple-400" />
+                    <span>+2.847 empresas</span>
                   </div>
-                  <p className="text-gray-700 mb-4">{forklift.description}</p>
-                  <ul className="space-y-2">
-                    {forklift.features.map((feature, index) => (
-                      <li key={index} className="flex items-center text-gray-800">
-                        <feature.icon className="h-4 w-4 text-green-500 mr-2" />
-                        <span className="text-sm">{feature.text}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <a href="#contato" className="mt-4 block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-150">Detalhes e Locação</a>
+                  <div className="flex items-center gap-2">
+                    <Star className="w-5 h-5 text-yellow-400" />
+                    <span>4.9/5 estrelas</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="w-5 h-5 text-green-400" />
+                    <span>+340% conversão</span>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* Location Section */}
-      <section id="localizacao" className="py-16 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-extrabold text-gray-800 mb-8">Nossa Localização</h2>
-          <div className="flex items-center justify-center text-xl text-gray-700 mb-4">
-            <MapPin className="h-6 w-6 text-red-500 mr-3" />
-            <p>Rua Exemplo, 123 - Bairro Industrial - Cidade/SP</p>
-          </div>
-          <div className="h-80 bg-white rounded-xl shadow-lg flex items-center justify-center">
-            <span className="text-gray-500">Espaço para Mapa (Google Maps Embed)</span>
-          </div>
-        </div>
-      </section>
+            </section>
 
-      {/* Contact Section */}
-      <section id="contato" className="py-16 bg-white">
-        <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-8">Entre em Contato</h2>
-          <form className="space-y-6 bg-gray-50 p-8 rounded-xl shadow-md">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nome</label>
-              <input type="text" id="name" name="name" required className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500"/>
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" id="email" name="email" required className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500"/>
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700">Mensagem</label>
-              <textarea id="message" name="message" rows={4} required className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500"></textarea>
-            </div>
-            <button type="submit" className="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-150">Enviar Mensagem</button>
-            {/* O erro estava na linha acima, corrigido com o '>' final. */}
-          </form>
-        </div>
-      </section>
+            {/* Benefícios em Bullets */}
+            <section className="container mx-auto px-4 py-20">
+              <div className="max-w-6xl mx-auto">
+                <h2 className="text-4xl font-bold text-white text-center mb-16">
+                  Transforme Visitantes em <span className="text-purple-400">Clientes Pagantes</span>
+                </h2>
+          
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {[
+                    {
+                      icon: <Zap className="w-8 h-8 text-yellow-400" />,
+                      title: "ECONOMIZE 40 HORAS DE TRABALHO",
+                      description: "Nossa IA cria em minutos o que levaria semanas para desenvolver manualmente."
+                    },
+                    {
+                      icon: <Download className="w-8 h-8 text-green-400" />,
+                      title: "BAIXE O CÓDIGO COMPLETO IMEDIATAMENTE",
+                      description: "Receba arquivos HTML, CSS e JS prontos para hospedar onde quiser."
+                    },
+                    {
+                      icon: <Rocket className="w-8 h-8 text-purple-400" />,
+                      title: "AUMENTE SUAS VENDAS EM ATÉ 340%",
+                      description: "Landing pages otimizadas com técnicas comprovadas de conversão."
+                    },
+                    {
+                      icon: <Shield className="w-8 h-8 text-blue-400" />,
+                      title: "ELIMINE A DEPENDÊNCIA DE PROGRAMADORES",
+                      description: "Crie páginas profissionais sem conhecimento técnico ou equipe."
+                    },
+                    {
+                      icon: <Clock className="w-8 h-8 text-orange-400" />,
+                      title: "LANCE CAMPANHAS NO MESMO DIA",
+                      description: "Pare de esperar semanas. Sua landing page fica pronta hoje."
+                    },
+                    {
+                      icon: <Award className="w-8 h-8 text-pink-400" />,
+                      title: "SUPERE SEUS CONCORRENTES AGORA",
+                      description: "Enquanto eles planejam, você já está vendendo com páginas profissionais."
+                    }
+                  ].map((benefit, index) => (
+                    <Card key={index} className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300 hover:scale-105">
+                      <CardContent className="p-6">
+                        <div className="flex items-start gap-4">
+                          <div className="flex-shrink-0">
+                            {benefit.icon}
+                          </div>
+                          <div>
+                            <h3 className="text-white font-bold text-lg mb-2">{benefit.title}</h3>
+                            <p className="text-gray-300">{benefit.description}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p>&copy; {new Date().getFullYear()} USD Empilhadeiras. Todos os direitos reservados.</p>
-        </div>
-      </footer>
-    </div>
-  );
-}
+            {/* Prova Social - Depoimentos */}
+            <section className="container mx-auto px-4 py-20 bg-white/5">
+              <div className="max-w-6xl mx-auto">
+                <h2 className="text-4xl font-bold text-white text-center mb-16">
+                  Veja o Que Nossos <span className="text-purple-400">Clientes Dizem</span>
+                </h2>
+          
+                <div className="grid md:grid-cols-3 gap-8">
+                  {[
+                    {
+                      name: "Carlos Mendes",
+                      role: "CEO, TechStart",
+                      result: "Aumentei 280% as vendas",
+                      feature: "A velocidade da IA é impressionante",
+                      feeling: "Nunca pensei que seria tão fácil ter uma landing page profissional.",
+                      rating: 5
+                    },
+                    {
+                      name: "Ana Paula Silva",
+                      role: "Marketing Digital",
+                      result: "Economizei R$ 15.000 em desenvolvimento",
+                      feature: "O código gerado é limpo e otimizado",
+                      feeling: "Minha agência agora entrega projetos 10x mais rápido.",
+                      rating: 5
+                    },
+                    {
+                      name: "Roberto Costa",
+                      role: "E-commerce Owner",
+                      result: "Lancei 5 produtos em uma semana",
+                      feature: "Templates focados em conversão",
+                      feeling: "Finalmente posso competir com as grandes empresas.",
+                      rating: 5
+                    }
+                  ].map((testimonial, index) => (
+                    <Card key={index} className="bg-white/10 backdrop-blur-sm border-white/20">
+                      <CardContent className="p-6">
+                        <div className="flex mb-4">
+                          {[...Array(testimonial.rating)].map((_, i) => (
+                            <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                          ))}
+                        </div>
+                        <p className="text-white font-bold text-lg mb-2">"{testimonial.result}"</p>
+                        <p className="text-gray-300 mb-4">"{testimonial.feature}. {testimonial.feeling}"</p>
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold">
+                            {testimonial.name.charAt(0)}
+                          </div>
+                          <div>
+                            <p className="text-white font-semibold">{testimonial.name}</p>
+                            <p className="text-gray-400 text-sm">{testimonial.role}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Oferta Direta */}
+            <section className="container mx-auto px-4 py-20">
+              <div className="max-w-4xl mx-auto text-center">
+                <h2 className="text-4xl font-bold text-white mb-8">
+                  O Que Você Recebe <span className="text-purple-400">Hoje</span>
+                </h2>
+          
+                <Card className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 backdrop-blur-sm border-purple-500/30 p-8">
+                  <CardContent className="space-y-6">
+                    <div className="grid md:grid-cols-3 gap-6">
+                      <div className="text-center">
+                        <Zap className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
+                        <h3 className="text-white font-bold text-xl mb-2">Acesso Imediato à IA</h3>
+                        <p className="text-gray-300">Crie landing pages ilimitadas com nossa inteligência artificial avançada.</p>
+                      </div>
+                      <div className="text-center">
+                        <Download className="w-12 h-12 text-green-400 mx-auto mb-4" />
+                        <h3 className="text-white font-bold text-xl mb-2">Código Fonte Completo</h3>
+                        <p className="text-gray-300">Baixe HTML, CSS e JavaScript otimizados para máxima performance.</p>
+                      </div>
+                      <div className="text-center">
+                        <Shield className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+                        <h3 className="text-white font-bold text-xl mb-2">Suporte Prioritário</h3>
+                        <p className="text-gray-300">Tire dúvidas e receba ajuda especializada quando precisar.</p>
+                      </div>
+                    </div>
+              
+                    <Separator className="bg-white/20" />
+              
+                    <div className="text-center">
+                      <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold px-12 py-4 text-xl rounded-full shadow-2xl hover:scale-105 transition-all duration-300">
+                        QUERO ACESSO COMPLETO AGORA
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+
+            {/* Garantia */}
+            <section className="container mx-auto px-4 py-20 bg-white/5">
+              <div className="max-w-3xl mx-auto text-center">
+                <div className="bg-gradient-to-r from-green-900/50 to-emerald-900/50 backdrop-blur-sm border-green-500/30 rounded-2xl p-8">
+                  <Shield className="w-16 h-16 text-green-400 mx-auto mb-6" />
+                  <h2 className="text-3xl font-bold text-white mb-4">
+                    Garantia de <span className="text-green-400">Satisfação Total</span>
+                  </h2>
+                  <p className="text-xl text-gray-300 mb-6">
+                    Teste nossa plataforma por 7 dias completos. Se não ficar 100% satisfeito, 
+                    devolvemos todo seu investimento sem perguntas.
+                  </p>
+                  <div className="flex items-center justify-center gap-2 text-green-400">
+                    <CheckCircle className="w-6 h-6" />
+                    <span className="font-semibold">Risco Zero • Garantia Incondicional</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Escassez */}
+            <section className="container mx-auto px-4 py-20">
+              <div className="max-w-4xl mx-auto text-center">
+                <div className="bg-gradient-to-r from-red-900/50 to-orange-900/50 backdrop-blur-sm border-red-500/30 rounded-2xl p-8">
+                  <Timer className="w-16 h-16 text-red-400 mx-auto mb-6" />
+                  <h2 className="text-3xl font-bold text-white mb-4">
+                    ⚠️ <span className="text-red-400">OFERTA LIMITADA</span> ⚠️
+                  </h2>
+                  <p className="text-xl text-gray-300 mb-6">
+                    Apenas <span className="text-red-400 font-bold">47 vagas restantes</span> para dezembro. 
+                    Após esgotar, próxima turma apenas em 2025.
+                  </p>
+                  <Badge className="bg-red-500 text-white text-lg px-6 py-2 mb-6">
+                    ÚLTIMAS HORAS • TERMINA EM DEZEMBRO
+                  </Badge>
+                  <div className="space-y-4">
+                    <Button className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-bold px-12 py-4 text-xl rounded-full shadow-2xl hover:scale-105 transition-all duration-300 w-full sm:w-auto">
+                      GARANTIR MINHA VAGA AGORA
+                    </Button>
+                    <p className="text-gray-400 text-sm">⏰ Não perca esta oportunidade única</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* FAQ */}
+            <section className="container mx-auto px-4 py-20 bg-white/5">
+              <div className="max-w-4xl mx-auto">
+                <h2 className="text-4xl font-bold text-white text-center mb-16">
+                  Perguntas <span className="text-purple-400">Frequentes</span>
+                </h2>
+          
+                <div className="space-y-6">
+                  {[
+                    {
+                      question: "Preciso saber programação para usar?",
+                      answer: "Não! Nossa IA faz todo o trabalho técnico. Você só precisa descrever o que quer e pronto."
+                    },
+                    {
+                      question: "Posso usar o código em qualquer servidor?",
+                      answer: "Sim! O código gerado é 100% seu e funciona em qualquer hospedagem (Hostinger, GoDaddy, etc.)."
+                    },
+                    {
+                      question: "Quantas landing pages posso criar?",
+                      answer: "Ilimitadas! Crie quantas páginas precisar para todos seus produtos e campanhas."
+                    },
+                    {
+                      question: "E se eu não gostar do resultado?",
+                      answer: "Garantia total de 7 dias. Se não ficar satisfeito, devolvemos 100% do valor investido."
+                    }
+                  ].map((faq, index) => (
+                    <Card key={index} className="bg-white/10 backdrop-blur-sm border-white/20">
+                      <CardContent className="p-6">
+                        <h3 className="text-white font-bold text-lg mb-3">{faq.question}</h3>
+                        <p className="text-gray-300">{faq.answer}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Sobre o Criador */}
+            <section className="container mx-auto px-4 py-20">
+              <div className="max-w-3xl mx-auto text-center">
+                <h2 className="text-4xl font-bold text-white mb-12">
+                  Quem Está Por Trás do <span className="text-purple-400">SiteBoost Brasil</span>
+                </h2>
+          
+                <Card className="bg-white/10 backdrop-blur-sm border-white/20 p-8">
+                  <CardContent className="flex flex-col md:flex-row items-center gap-8">
+                    <div className="w-32 h-32 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white text-4xl font-bold flex-shrink-0">
+                      SB
+                    </div>
+                    <div className="text-left">
+                      <h3 className="text-2xl font-bold text-white mb-4">Especialista em Automação e IA</h3>
+                      <p className="text-gray-300 text-lg leading-relaxed">
+                        Desenvolvedor com mais de 8 anos criando soluções que automatizam processos complexos. 
+                        Criou o SiteBoost Brasil para democratizar o acesso a landing pages profissionais, 
+                        eliminando a barreira técnica que impede pequenos negócios de crescerem online.
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+
+            {/* CTA Final */}
+            <section className="container mx-auto px-4 py-20">
+              <div className="max-w-4xl mx-auto text-center">
+                <h2 className="text-5xl font-bold text-white mb-8">
+                  Sua Empresa Precisa <span className="text-purple-400">Dessa Solução</span>
+                </h2>
+                <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+                  Pare de perder vendas por não ter landing pages profissionais. 
+                  Comece hoje e veja seus resultados dispararem.
+                </p>
+          
+                <div className="space-y-6">
+                  <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold px-16 py-6 text-2xl rounded-full shadow-2xl hover:scale-105 transition-all duration-300">
+                    CRIAR MINHA PRIMEIRA LANDING PAGE AGORA
+                  </Button>
+            
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-3 rounded-full">
+                      QUERO ALGO PERSONALIZADO
+                    </Button>
+                    <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-3 rounded-full">
+                      FALAR COM ESPECIALISTA
+                    </Button>
+                  </div>
+            
+                  <p className="text-gray-400">
+                    ✨ Comece grátis • 💳 Sem cartão de crédito • 🛡️ Garantia de 7 dias
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Footer */}
+            <footer className="container mx-auto px-4 py-12 border-t border-white/20">
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <Sparkles className="w-6 h-6 text-purple-400" />
+                  <span className="text-xl font-bold text-white">SiteBoost Brasil</span>
+                </div>
+                <p className="text-gray-400">
+                  © 2024 SiteBoost Brasil. Transformando ideias em landing pages de alta conversão.
+                </p>
+              </div>
+            </footer>
+          </div>
+        )
+      }

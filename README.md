@@ -1,3 +1,19 @@
+# SiteBoost Brasil — Repositório
+
+Este repositório contém a landing page do SiteBoost Brasil (Next.js).
+
+Como editar rápido no GitHub (recomendado):
+
+1. Acesse o repositório: https://github.com/Tiltadotwitch/siteboostpage
+2. Navegue até `src/app/page.tsx` e clique no ícone de lápis (Edit) para editar diretamente no navegador.
+3. Faça suas alterações e, ao terminar, prefira criar uma branch e abrir um Pull Request (PR) — isso gera preview automático no Vercel.
+4. Após revisão e aprovação, faça merge na `main`. O Vercel fará deploy automático para produção.
+
+Observações:
+- Se precisar alterar dependências ou scripts, atualize `package.json`.
+- Para variáveis sensíveis, use o painel do Vercel (Settings → Environment Variables).
+
+Se quiser, posso criar branches, PRs e aplicar mudanças para você.
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

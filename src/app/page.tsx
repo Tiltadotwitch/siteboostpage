@@ -17,9 +17,12 @@ import { 
   Award
 } from "lucide-react"
 
+// =================================================================
 // --- Componentes de UI Corrigidos (Tipagem TypeScript) ---
+// =================================================================
 
-// 1. Definição da Tipagem para Button
+// 1. Definição da Tipagem para Button (INCLUINDO A CORREÇÃO DA LINHA 14)
+// Usamos React.ButtonHTMLAttributes para herdar todas as props de um <button> HTML, como 'onClick' e 'disabled'.
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode; 
   className?: string; 
@@ -33,23 +36,21 @@ const Button = ({
   children, 
   className = '', 
   variant = 'default',
-  ...props
+  ...props // Todas as props padrão do HTML (como onClick, disabled)
 }: ButtonProps) => {
     const baseClasses = "inline-flex items-center justify-center text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none rounded-full"
     
     let variantClasses = "";
     if (variant === "default") {
-        // Classes padrão para os botões coloridos
         variantClasses = "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold shadow-2xl hover:scale-105 transition-all duration-300";
     } else if (variant === "outline") {
-        // Classes para os botões de contorno
         variantClasses = "border border-white/30 text-white hover:bg-white/10";
     }
 
     return (
       <button 
         className={`${baseClasses} ${variantClasses} ${className}`} 
-        {...props}
+        {...props} // Aplica todas as outras props (onClick, disabled, etc.)
       >
         {children}
       </button>
@@ -75,7 +76,7 @@ const CardContent = ({ children, className = '' }: CardProps) => (
 // 3. Componente Badge (Etiqueta)
 const Badge = ({ children, className = '' }: CardProps) => (
     <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80"
-         style={{ backgroundColor: "#8B5CF6", color: "white" }} // Cor de fundo fixa para simplicidade
+         style={{ backgroundColor: "#8B5CF6", color: "white" }} 
     >
         {children}
     </div>
@@ -87,7 +88,9 @@ const Separator = ({ className = '' }: { className?: string }) => (
 );
 
 
+// =================================================================
 // --- Landing Page Principal ---
+// =================================================================
 
 export default function LandingPage() {
   return (

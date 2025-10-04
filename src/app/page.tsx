@@ -1,19 +1,18 @@
-"use client"; // Esta diretiva marca o componente como um "Client Component", permitindo o uso de Hooks como useState e useEffect.
+"use client"; // ESSENTIAL: Allows the use of state and effect hooks (useState, useEffect)
 
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
-// Declaramos as bibliotecas carregadas via CDN para evitar erros de TypeScript
+// Declare external libraries loaded via CDN to avoid TypeScript errors
 declare const THREE: any; 
 declare const Tone: any; 
 
-// --- DEFINIÇÕES DE DADOS E ESTILOS CUSTOMIZADOS ---
+// --- DATA DEFINITIONS AND CUSTOM STYLES ---
 
-// Tipagem básica para os itens do FAQ e Planos
+// Basic typing for FAQ items and Plans
 interface FaqItemData {
     id: number;
     question: string;
     answer: string;
-    delay: string;
 }
 
 interface PlanData {
@@ -27,21 +26,21 @@ interface PlanData {
     buttonText: string;
 }
 
-// Dados de FAQ
+// FAQ Data
 const faqItems: FaqItemData[] = [
-    { id: 1, question: "Preciso ser um desenvolvedor para usar o SiteBoost?", answer: "Absolutamente não. Nosso processo é 100% passo a passo, projetado para que agências, profissionais de marketing e até mesmo iniciantes possam criar landing pages de nível profissional com a mesma qualidade de um sênior.", delay: '0s' },
-    { id: 2, question: "O código gerado é compatível com todos os navegadores e dispositivos?", answer: "Sim. A SiteBoost gera código moderno (HTML5/CSS3/ES6), otimizado com classes do Tailwind CSS e com uma arquitetura Mobile First, garantindo compatibilidade e performance.", delay: '0.1s' },
-    { id: 3, question: "Quais são as vantagens do código ser gerado em 'Arquitetura Única'?", answer: "Gerar a aplicação completa em um único arquivo (HTML, CSS e JS juntos; ou React/Angular Component) maximiza a portabilidade, agiliza a implantação e melhora a velocidade de carregamento (Core Web Vitals).", delay: '0.2s' },
-    { id: 4, question: "Posso solicitar códigos em frameworks específicos (React, Angular)?", answer: "Sim. Os planos Pro e Enterprise suportam a geração de código para diversos frameworks, incluindo React (JSX), Angular (TypeScript/Signals) e Vue.js, sempre mantendo a arquitetura em um único arquivo.", delay: '0.3s' },
+    { id: 1, question: "Preciso ser um desenvolvedor para usar o SiteBoost?", answer: "Absolutamente não. Nosso processo é 100% passo a passo, projetado para que agências, profissionais de marketing e até mesmo iniciantes possam criar landing pages de nível profissional com a mesma qualidade de um sênior." },
+    { id: 2, question: "O código gerado é compatível com todos os navegadores e dispositivos?", answer: "Sim. A SiteBoost gera código moderno (HTML5/CSS3/ES6), otimizado com classes do Tailwind CSS e com uma arquitetura Mobile First, garantindo compatibilidade e performance." },
+    { id: 3, question: "Quais são as vantagens do código ser gerado em 'Arquitetura Única'?", answer: "Gerar a aplicação completa em um único arquivo (HTML, CSS e JS juntos; ou React/Angular Component) maximiza a portabilidade, agiliza a implantação e melhora a velocidade de carregamento (Core Web Vitals)." },
+    { id: 4, question: "Posso solicitar códigos em frameworks específicos (React, Angular)?", answer: "Sim. Os planos Pro e Enterprise suportam a geração de código para diversos frameworks, incluindo React (JSX), Angular (TypeScript/Signals) e Vue.js, sempre mantendo a arquitetura em um único arquivo." },
 ];
 
-// Classes de estilo Tailwind
+// Tailwind style classes
 const neonCyan = 'text-[#00ffff]';
 const neonMagenta = 'text-[#ff007f]';
 const accentCyan = 'text-[#00ffff]';
 const accentMagenta = 'text-[#ff007f]';
 
-// Dados dos Planos (Atualizados conforme solicitado)
+// Plan Data
 const plans: PlanData[] = [
     {
         name: "Iniciante",
@@ -76,7 +75,6 @@ const plans: PlanData[] = [
     },
     {
         name: "Enterprise / Personalizado",
-        // Descrição atualizada para incluir criadores de conteúdo
         description: "Para grandes agências, integração de sistemas e criadores de conteúdo",
         price: "Sob Consulta",
         isPopular: false,
@@ -86,7 +84,6 @@ const plans: PlanData[] = [
             { text: "Modelo I.A. Dedicado e Customizável", isIncluded: true, colorClass: neonCyan },
             { text: "Integração com APIs Próprias e CMS", isIncluded: true, colorClass: neonCyan },
             { text: "Treinamento com Padrões de Código Internos", isIncluded: true, colorClass: neonCyan },
-            // Feature atualizada
             { text: "Plano Personalizado de recursos e SLAs", isIncluded: true, colorClass: neonCyan },
         ],
         buttonText: "Entre em Contato"
@@ -94,26 +91,26 @@ const plans: PlanData[] = [
 ];
 
 
-// --- COMPONENTES AUXILIARES ---
+// --- AUXILIARY COMPONENTS ---
 
-// Componente FaqItem para o Acordeão
+// FaqItem component for the Accordion (Now with zoom on hover and no scroll-reveal)
 interface FaqItemProps extends FaqItemData {
     activeId: number | null;
     setActiveId: React.Dispatch<React.SetStateAction<number | null>>;
 }
-const FaqItem: React.FC<FaqItemProps> = ({ id, question, answer, activeId, setActiveId, delay }) => {
+const FaqItem: React.FC<FaqItemProps> = ({ id, question, answer, activeId, setActiveId }) => {
     const isActive = activeId === id;
     
     const toggleFaq = () => setActiveId(isActive ? null : id);
 
     return (
         <div 
-            className={`border-2 rounded-xl p-4 transition-all duration-500 shadow-2xl scroll-reveal
+            // Added transform and hover:scale-[1.02] for the subtle zoom effect
+            className={`border-2 rounded-xl p-4 transition-all duration-500 shadow-2xl transform hover:scale-[1.02] cursor-pointer
             ${isActive 
                 ? 'border-cyan-400/60 bg-[#1a053c]/30 shadow-cyan-400/30 backdrop-blur-sm' 
                 : 'border-gray-800/40 bg-[#1a053c]/10 hover:border-red-500/30'
             }`}
-            style={{ transitionDelay: delay }}
         >
             <button 
                 className="flex justify-between items-center w-full text-left focus:outline-none"
@@ -133,11 +130,12 @@ const FaqItem: React.FC<FaqItemProps> = ({ id, question, answer, activeId, setAc
     );
 };
 
-// Componente para exibir contadores animados
-const CounterBox: React.FC<{ value: number; label: string; suffix?: string, delay: string }> = ({ value, label, suffix = '', delay }) => {
+// Component to display animated counters
+const CounterBox: React.FC<{ value: number; label: string; suffix?: string }> = ({ value, label, suffix = '' }) => {
     const [count, setCount] = useState(0);
     const ref = useRef<HTMLDivElement>(null);
 
+    // Effect to start the counter when it enters the viewport
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
@@ -170,7 +168,7 @@ const CounterBox: React.FC<{ value: number; label: string; suffix?: string, dela
     }, [value]);
 
     return (
-        <div ref={ref} className="text-center p-6 bg-[#1a053c]/40 rounded-xl border-t-4 border-[#00ffff]/60 shadow-xl scroll-reveal" style={{ transitionDelay: delay }}>
+        <div ref={ref} className="text-center p-6 bg-[#1a053c]/40 rounded-xl border-t-4 border-[#00ffff]/60 shadow-xl transition-opacity duration-1000 opacity-100">
             <div className={`text-5xl font-title font-bold mb-1 ${neonCyan}`}>
                 {count.toLocaleString('pt-BR')}{suffix}
             </div>
@@ -180,56 +178,60 @@ const CounterBox: React.FC<{ value: number; label: string; suffix?: string, dela
 };
 
 
-// --- COMPONENTE PRINCIPAL APP ---
+// --- MAIN LANDING PAGE COMPONENT ---
 
-const App: React.FC = () => {
+const LandingPage: React.FC = () => {
     const [activeFaq, setActiveFaq] = useState<number | null>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const synthRef = useRef<any>(null);
     
-    // Variáveis do Three.js armazenadas em Ref para persistência e mutabilidade
+    // Three.js variables stored in Ref for persistence and mutability
     const sceneRef = useRef<any>(null);
     const cameraRef = useRef<any>(null);
     const rendererRef = useRef<any>(null);
     const starGeoRef = useRef<any>(null);
     const starsRef = useRef<any>(null);
     
-    // Inicializado com null e tipado como number | null
+    // Used to store the animation frame ID for the Three.js loop
     const animationFrameIdRef = useRef<number | null>(null); 
     
     const mouseXRef = useRef(0);
     const mouseYRef = useRef(0);
     const starCount = 6000;
 
+    // --- 1. AUDIO FUNCTIONS (TONE.JS) ---
 
-    // --- 1. FUNÇÕES DE ÁUDIO (TONE.JS) ---
-
-    // Inicializa o sintetizador
+    // Initializes the synthesizer when Tone.js is available
     useEffect(() => {
-        if (typeof Tone !== 'undefined') {
+        if (typeof window !== 'undefined' && typeof (window as any).Tone !== 'undefined') {
+            const Tone = (window as any).Tone;
             synthRef.current = new Tone.PolySynth(Tone.Synth, {
                 oscillator: { type: "sine" },
                 envelope: {
                     attack: 0.005, decay: 0.1, sustain: 0.05, release: 0.5
                 }
             }).toDestination();
+            // console.log("Tone.js loaded successfully.");
         }
     }, []);
 
-    // Função memoizada para tocar uma nota
+    // Memoized function to play a note
     const playSynthNote = useCallback((note = 'C4') => {
-        if (synthRef.current && typeof Tone !== 'undefined') {
+        if (synthRef.current && typeof window !== 'undefined' && typeof (window as any).Tone !== 'undefined') {
+            const Tone = (window as any).Tone;
+            // Ensures the audio context is started by user interaction
             if (Tone.context.state !== 'running') {
                 Tone.start(); 
+                // console.log("Tone.js Audio Context started.");
             }
             synthRef.current.triggerAttackRelease(note, "16n");
         }
     }, []);
 
 
-    // --- 2. FUNÇÕES DE ANIMAÇÃO (THREE.JS) ---
+    // --- 2. ANIMATION FUNCTIONS (THREE.JS) ---
 
-    // Função de loop de animação
+    // Animation loop function
     const animate = useCallback(() => {
         const stars = starsRef.current;
         const starGeo = starGeoRef.current;
@@ -237,6 +239,7 @@ const App: React.FC = () => {
         const renderer = rendererRef.current;
         const scene = sceneRef.current;
 
+        // Safety check before performing rendering operations
         if (!stars || !starGeo || !camera || !renderer || !scene) {
              animationFrameIdRef.current = requestAnimationFrame(animate);
              return;
@@ -244,19 +247,19 @@ const App: React.FC = () => {
 
         animationFrameIdRef.current = requestAnimationFrame(animate);
 
-        // Movimento das estrelas (simulando warp)
+        // Star movement (simulating warp)
         const positions = starGeo.attributes.position.array as number[];
         for (let i = 0; i < starCount; i++) {
-            positions[i * 3 + 2] += 0.5; // Move em Z
+            positions[i * 3 + 2] += 0.5; // Move along Z
             if (positions[i * 3 + 2] > 200) {
-                positions[i * 3 + 2] = -900; // Reseta a estrela
+                positions[i * 3 + 2] = -900; // Reset star position
             }
         }
         starGeo.attributes.position.needsUpdate = true;
         
         stars.rotation.z += 0.0005;
 
-        // Controle de paralaxe
+        // Parallax control
         const targetX = mouseXRef.current * 30;
         const targetY = -mouseYRef.current * 30;
 
@@ -268,10 +271,15 @@ const App: React.FC = () => {
     }, []);
 
 
-    // Função para configurar a cena Three.js
+    // Function to set up the Three.js scene
     const initializeThreeJS = useCallback(() => {
+        // Double-check if THREE.js and the canvas are available
+        if (typeof window === 'undefined' || typeof (window as any).THREE === 'undefined' || !canvasRef.current) {
+            console.error("ERROR: Three.js or Canvas are not available for initialization.");
+            return () => {};
+        }
+        
         const THREE = (window as any).THREE;
-        if (!canvasRef.current || !THREE) return () => {};
 
         // 1. Setup
         sceneRef.current = new THREE.Scene();
@@ -284,7 +292,7 @@ const App: React.FC = () => {
         rendererRef.current.setClearColor(0x000000, 0); 
         rendererRef.current.setPixelRatio(window.devicePixelRatio);
         
-        // 2. Starfield
+        // 2. Starfield Geometry and Material
         const positions = new Float32Array(starCount * 3);
         const colors = new Float32Array(starCount * 3);
         const color1 = new THREE.Color(0x00ffff); // Cyan
@@ -314,7 +322,7 @@ const App: React.FC = () => {
         starsRef.current = new THREE.Points(starGeoRef.current, starMaterial);
         sceneRef.current.add(starsRef.current);
 
-        // 3. Handlers
+        // 3. Event Handlers
         const handleResize = () => {
             if (cameraRef.current && rendererRef.current) {
                 cameraRef.current.aspect = window.innerWidth / window.innerHeight;
@@ -331,9 +339,11 @@ const App: React.FC = () => {
         window.addEventListener('resize', handleResize);
         window.addEventListener('mousemove', handleMouseMove);
 
-        animate();
+        // console.log("Three.js initialized. Starting animation loop.");
+        animate(); // Start the animation loop
 
         return () => {
+            // Cleanup function for Three.js
             if (animationFrameIdRef.current) cancelAnimationFrame(animationFrameIdRef.current);
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('mousemove', handleMouseMove);
@@ -342,34 +352,38 @@ const App: React.FC = () => {
 
     }, [animate]);
 
-    // Efeito principal para inicializar Three.js
+    // Main Effect: Uses polling to wait for Three.js to be loaded via CDN
+    // This is necessary because Next/Script loads the file asynchronously
     useEffect(() => {
-        // Verifica se THREE e Tone já foram carregados pelo CDN no <head>
-        if (typeof THREE !== 'undefined') {
-            const cleanup = initializeThreeJS();
-            return cleanup;
-        }
+        let timeoutId: number | null = null;
+        let cleanupThree: (() => void) | null = null;
+        
+        const checkThreeReady = () => {
+            // Check if THREE.js is loaded
+            if (typeof window !== 'undefined' && typeof (window as any).THREE !== 'undefined') {
+                // console.log("THREE.js detected! Initializing 3D scene.");
+                cleanupThree = initializeThreeJS();
+            } else {
+                // If not ready, try again after 100ms
+                timeoutId = window.setTimeout(checkThreeReady, 100);
+            }
+        };
+
+        checkThreeReady();
+        
+        // Cleanup function for the effect
+        return () => {
+             // Clear the polling timeout if it's still running
+             if (timeoutId !== null) window.clearTimeout(timeoutId);
+             // Execute Three.js cleanup if it was initialized
+             if (cleanupThree) cleanupThree();
+        };
+
     }, [initializeThreeJS]);
 
-    // Efeito para o Scroll Reveal
-    useEffect(() => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                }
-            });
-        }, { threshold: 0.1 });
 
-        const revealElements = document.querySelectorAll('.scroll-reveal');
-        revealElements.forEach(el => observer.observe(el));
-
-        return () => revealElements.forEach(el => observer.unobserve(el));
-    }, []);
-
-
-    // Estilos CSS/Tailwind Customizados, inclusos diretamente no componente
-    const CustomStyles = () => (
+    // Component for Custom CSS/Tailwind Styles
+    const CustomStyles = () => ( // Removed useMemo here
         <style>{`
             @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600;700&display=swap');
             
@@ -381,16 +395,18 @@ const App: React.FC = () => {
             .font-inter { font-family: 'Inter', sans-serif; }
             .font-title { font-family: 'Orbitron', sans-serif; }
 
+            /* Fix para o Next.js: Garante que o canvas cubra a tela e esteja atrás do conteúdo */
             .three-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; display: block; }
             
             .bg-hero {
+                /* Ensures the background has a dark gradient and subtle glow */
                 background-image: radial-gradient(circle at center, rgba(26, 5, 60, 0.4) 0%, rgba(3, 0, 15, 0.9) 100%);
                 box-shadow: 0 0 100px rgba(0, 255, 255, 0.05) inset;
             }
             
-            /* Rainbow Padrão (Iniciante, Título Principal) */
+            /* Standard Rainbow (Starter, Main Title) */
             .rainbow-text { 
-                background: linear-gradient(90deg, #ffff00, #00ff00, #00ffff, #ffff00); 
+                background: linear-gradient(90deg, #ffff00, #00ff00, #00ffff, #ff007f); 
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
@@ -404,7 +420,7 @@ const App: React.FC = () => {
                 100% { background-position: 0% 50%; }
             }
 
-            /* Novo Rainbow: Rosa e Roxo (Plano Pro & Título de Métricas) */
+            /* Pro Rainbow: Pink and Purple (Pro Plan & Metrics Title) */
             .rainbow-pro {
                 background: linear-gradient(90deg, #ff007f, #8a2be2, #ff007f); 
                 -webkit-background-clip: text;
@@ -420,7 +436,7 @@ const App: React.FC = () => {
                 100% { background-position: 0% 50%; }
             }
 
-            /* Novo Rainbow: Vermelho e Preto (Plano Enterprise) - Mais Rápido */
+            /* Enterprise Rainbow: Red and Black (Enterprise Plan) - Faster */
             .rainbow-enterprise {
                 background: linear-gradient(90deg, #ff0000, #222222, #ff0000); 
                 -webkit-background-clip: text;
@@ -436,7 +452,7 @@ const App: React.FC = () => {
                 100% { background-position: 0% 50%; }
             }
 
-            /* Botão PRIMÁRIO (Iniciante - Magenta) */
+            /* PRIMARY Button (Starter - Magenta) */
             .neon-button-primary {
                 background-color: var(--neon-magenta); 
                 color: white;
@@ -451,52 +467,56 @@ const App: React.FC = () => {
                 border-color: var(--neon-cyan);
                 transform: scale(1.05);
             }
+            
+            /* Navigation Button (Header) */
+            .neon-button-header {
+                background-color: transparent; 
+                color: var(--neon-cyan);
+                box-shadow: 0 0 10px var(--neon-cyan);
+                border: 1px solid var(--neon-cyan);
+            }
+            .neon-button-header:hover {
+                background-color: var(--neon-cyan); 
+                color: #03000f; 
+                box-shadow: 0 0 20px var(--neon-cyan);
+                transform: scale(1.05);
+            }
 
-            /* Botão PRO (Cyan) */
+            /* PRO Button (Cyan) */
             .neon-button-pro {
                 background-color: var(--neon-cyan); 
-                color: var(--bg-dark); /* Texto escuro para contraste no ciano */
+                color: var(--bg-dark); 
                 box-shadow: 0 0 10px var(--neon-cyan), 0 0 40px var(--neon-cyan), 0 0 80px rgba(0, 255, 255, 0.6);
                 transition: all 0.3s ease;
                 border: 2px solid var(--neon-cyan);
                 font-weight: 700;
             }
             .neon-button-pro:hover {
-                background-color: var(--neon-magenta); /* Hover em magenta */
-                color: white; /* Volta o texto para branco */
+                background-color: var(--neon-magenta); 
+                color: white; 
                 box-shadow: 0 0 15px var(--neon-magenta), 0 0 50px var(--neon-magenta), 0 0 100px rgba(255, 0, 127, 0.7);
                 border-color: var(--neon-magenta);
                 transform: scale(1.05);
             }
 
-            /* Botão ENTERPRISE (Blue/Premium) */
+            /* ENTERPRISE Button (Blue/Premium) */
             .neon-button-enterprise {
-                background-color: #0d0126; /* Fundo muito escuro */
-                color: #4a90e2; /* Texto azul claro */
-                box-shadow: 0 0 5px #4a90e2; /* Sombra sutil */
+                background-color: #0d0126; 
+                color: #4a90e2; 
+                box-shadow: 0 0 5px #4a90e2; 
                 transition: all 0.3s ease;
                 border: 2px solid #4a90e2;
                 font-weight: 700;
             }
             .neon-button-enterprise:hover {
-                background-color: #4a90e2; /* Fundo azul no hover */
+                background-color: #4a90e2; 
                 color: white;
                 box-shadow: 0 0 15px #4a90e2, 0 0 50px rgba(74, 144, 226, 0.7);
                 border-color: #4a90e2;
                 transform: scale(1.05);
             }
-
-            .scroll-reveal {
-                opacity: 0;
-                transform: translateY(60px); 
-                transition: opacity 1.0s ease-out, transform 1.0s cubic-bezier(0.23, 1, 0.32, 1);
-                will-change: opacity, transform;
-            }
-            .scroll-reveal.is-visible {
-                opacity: 1;
-                transform: translateY(0);
-            }
             
+            /* Feature card hover effect */
             .feature-card {
                 transition: all 0.3s ease;
             }
@@ -515,22 +535,24 @@ const App: React.FC = () => {
         <div className="min-h-screen bg-[#03000f] text-white font-inter overflow-x-hidden relative">
             <CustomStyles />
             
-            {/* CANVAS 3D DO THREE.JS */}
+            {/* THREE.JS 3D CANVAS */}
+            {/* O Canvas está visível e fixo, mas o fundo só aparecerá se o Three.js for carregado corretamente no layout */}
             <canvas ref={canvasRef} className="three-canvas" id="three-bg"></canvas>
 
             <div className="relative z-10">
+                {/* O z-index:10 garante que o conteúdo React fique acima do Canvas (z-index:0) */}
 
                 {/* HEADER / NAV */}
                 <header className="sticky top-0 z-50 bg-[#0d0126]/80 backdrop-blur-sm border-b border-cyan-400/20">
                     <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                        <div className="text-3xl font-bold font-title rainbow-text scroll-reveal">SiteBoost</div>
-                        <div className="hidden md:flex space-x-8 scroll-reveal" style={{ transitionDelay: '0.1s' }}>
+                        <div className="text-3xl font-bold font-title rainbow-text">SiteBoost</div>
+                        <div className="hidden md:flex space-x-8">
                             <a href="#funcionalidades" className="text-gray-300 hover:text-cyan-400 transition font-medium">Funcionalidades</a>
                             <a href="#metrics" className="text-gray-300 hover:text-cyan-400 transition font-medium">Clientes</a>
                             <a href="#precos" className="text-gray-300 hover:text-cyan-400 transition font-medium">Planos</a>
                             <a href="#faq" className="text-gray-300 hover:text-cyan-400 transition font-medium">FAQ</a>
                         </div>
-                        <a href="#contato" className="hidden md:inline-block py-2 px-5 rounded-lg font-semibold text-sm neon-button-primary scroll-reveal" style={{ transitionDelay: '0.2s' }}>
+                        <a href="#contato" className="hidden md:inline-block py-2 px-5 rounded-lg font-semibold text-sm neon-button-header">
                             Teste Grátis 3 Dias
                         </a>
                         <button className="md:hidden text-gray-300 hover:text-cyan-400 transition">
@@ -539,26 +561,25 @@ const App: React.FC = () => {
                     </nav>
                 </header>
 
-                {/* SEÇÃO HERO */}
+                {/* HERO SECTION */}
                 <section className="relative h-screen flex items-center justify-center text-center bg-hero overflow-hidden">
                     <div className="z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
-                        {/* BOTÃO HERO ATUALIZADO: Fundo transparente, apenas borda */}
+                        {/* BOTÕES E TÍTULOS VISÍVEIS */}
                         <a href="#contato" 
-                           className={`py-2 px-5 inline-block rounded-full mb-6 font-semibold text-sm sm:text-base scroll-reveal border-2 border-cyan-400/70 text-cyan-400 
+                           className={`py-2 px-5 inline-block rounded-full mb-6 font-semibold text-sm sm:text-base border-2 border-cyan-400/70 text-cyan-400 
                            transition duration-300 transform hover:scale-105 hover:bg-cyan-400/10 hover:shadow-lg hover:shadow-cyan-400/50 cursor-pointer`} 
-                           style={{ transitionDelay: '0.1s' }}
                            onMouseEnter={() => playSynthNote('D5')}
                         >
                             🚀 Comece Agora: 3 Dias de Teste Grátis
                         </a>
 
-                        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-title font-bold mb-6 leading-tight scroll-reveal" style={{ transitionDelay: '0.3s' }}>
+                        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-title font-bold mb-6 leading-tight text-white">
                             A <span className="rainbow-text">I.A.</span> que Multiplica seu Valor de Mercado
                         </h1>
-                        <p className={`text-xl sm:text-2xl leading-relaxed max-w-3xl mx-auto mb-10 ${neonMagenta} scroll-reveal`} style={{ transitionDelay: '0.5s' }}>
+                        <p className={`text-xl sm:text-2xl leading-relaxed max-w-3xl mx-auto mb-10 ${neonMagenta}`}>
                             Crie Landing Pages e Sites de Alto Nível em Minutos. Não importa se você é uma agência, desenvolvedor ou iniciante – o SiteBoost te entrega o código completo, **pronto para o cliente**.
                         </p>
-                        <div className="space-y-4 sm:space-y-0 sm:space-x-6 scroll-reveal" style={{ transitionDelay: '0.7s' }}>
+                        <div className="space-y-4 sm:space-y-0 sm:space-x-6">
                             <a href="#contato" className="inline-block text-xl py-3 px-8 rounded-xl font-bold neon-button-primary" onClick={() => playSynthNote('C5')}>
                                 Começar Teste Grátis
                             </a>
@@ -569,10 +590,10 @@ const App: React.FC = () => {
                     </div>
                 </section>
 
-                {/* SEÇÃO DE FUNCIONALIDADES */}
+                {/* FEATURES SECTION */}
                 <section id="funcionalidades" className="relative py-16 md:py-24">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-16 scroll-reveal">
+                        <div className="text-center mb-16">
                             <h2 className="text-3xl sm:text-5xl font-title text-white mb-4">A Tecnologia <span className={accentCyan}>SiteBoost</span> em Ação</h2>
                             <p className={`text-xl leading-relaxed text-gray-300 max-w-3xl mx-auto ${accentMagenta}`}>
                                 Nossa I.A. foi otimizada para ser a sua linha de produção de código, garantindo qualidade profissional em qualquer projeto.
@@ -580,10 +601,9 @@ const App: React.FC = () => {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                            {/* Funcionalidade 1 - Cyan Hover */}
+                            {/* Feature 1 - Cyan Hover */}
                             <div 
-                                className="feature-card bg-[#1a053c]/30 p-8 rounded-xl shadow-2xl border-t-4 border-cyan-400/50 scroll-reveal transition-all duration-300 hover:ring-8 hover:ring-cyan-400/30" 
-                                style={{ transitionDelay: '0.1s' }}
+                                className="feature-card bg-[#1a053c]/30 p-8 rounded-xl shadow-2xl border-t-4 border-cyan-400/50 transition-all duration-300 hover:ring-8 hover:ring-cyan-400/30" 
                                 onMouseEnter={() => playSynthNote('D5')}
                             >
                                 <div className={`text-5xl mb-4 ${neonCyan}`}>
@@ -595,10 +615,9 @@ const App: React.FC = () => {
                                 </p>
                             </div>
 
-                            {/* Funcionalidade 2 - Magenta Hover */}
+                            {/* Feature 2 - Magenta Hover */}
                             <div 
-                                className="feature-card magenta bg-[#1a053c]/30 p-8 rounded-xl shadow-2xl border-t-4 border-red-500/50 scroll-reveal transition-all duration-300 hover:ring-8 hover:ring-red-500/30" 
-                                style={{ transitionDelay: '0.2s' }}
+                                className="feature-card magenta bg-[#1a053c]/30 p-8 rounded-xl shadow-2xl border-t-4 border-red-500/50 transition-all duration-300 hover:ring-8 hover:ring-red-500/30" 
                                 onMouseEnter={() => playSynthNote('E5')}
                             >
                                 <div className={`text-5xl mb-4 ${neonMagenta}`}>
@@ -610,10 +629,9 @@ const App: React.FC = () => {
                                 </p>
                             </div>
 
-                            {/* Funcionalidade 3 - Blue Hover */}
+                            {/* Feature 3 - Blue Hover */}
                             <div 
-                                className="feature-card blue bg-[#1a053c]/30 p-8 rounded-xl shadow-2xl border-t-4 border-blue-400/50 scroll-reveal transition-all duration-300 hover:ring-8 hover:ring-blue-400/30" 
-                                style={{ transitionDelay: '0.3s' }}
+                                className="feature-card blue bg-[#1a053c]/30 p-8 rounded-xl shadow-2xl border-t-4 border-blue-400/50 transition-all duration-300 hover:ring-8 hover:ring-blue-400/30" 
                                 onMouseEnter={() => playSynthNote('G5')}
                             >
                                 <div className={`text-5xl mb-4 text-blue-400`}>
@@ -628,28 +646,27 @@ const App: React.FC = () => {
                     </div>
                 </section>
                 
-                {/* SEÇÃO DE MÉTRICAS E PROVA SOCIAL */}
+                {/* METRICS AND SOCIAL PROOF SECTION */}
                 <section id="metrics" className="relative py-16 md:py-24 bg-[#000005]">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-16 scroll-reveal">
-                            {/* ALTERAÇÃO 1: Título com efeito rainbow-pro (roxo/magenta) */}
+                        <div className="text-center mb-16">
                             <h2 className="text-3xl sm:text-5xl font-title mb-4 rainbow-pro">Nossos Números Falam por Si</h2>
                             <p className={`text-xl leading-relaxed text-gray-300 max-w-3xl mx-auto rainbow-text`}>
                                 A confiança da nossa comunidade é o nosso maior ativo. Junte-se a quem está escalando a produção web.
                             </p>
                         </div>
                         
-                        {/* Box de Contadores */}
+                        {/* Counters Box */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                            <CounterBox value={2000} suffix="+" label="Usuários Ativos e Satisfeitos" delay="0s" />
-                            <CounterBox value={49} suffix="/5.0" label="Classificação Média nas Plataformas" delay="0.1s" />
-                            <CounterBox value={50000} suffix="+" label="Landing Pages Geradas pela I.A." delay="0.2s" />
+                            <CounterBox value={2000} suffix="+" label="Usuários Ativos e Satisfeitos" />
+                            <CounterBox value={49} suffix="/5.0" label="Classificação Média nas Plataformas" />
+                            <CounterBox value={50000} suffix="+" label="Landing Pages Geradas pela I.A." />
                         </div>
 
-                        {/* Box de Avaliações */}
-                        <div className="bg-[#1a053c]/60 p-8 rounded-xl shadow-2xl border border-cyan-400/40 scroll-reveal" style={{ transitionDelay: '0.4s' }}>
+                        {/* Reviews Box */}
+                        <div className="bg-[#1a053c]/60 p-8 rounded-xl shadow-2xl border border-cyan-400/40">
                             <div className="flex justify-center items-center mb-6">
-                                {/* SVG Star Icon (5 vezes) */}
+                                {/* SVG Star Icon (5 times) */}
                                 {[...Array(5)].map((_, i) => (
                                     <svg key={i} className={`w-8 h-8 ${i < 4.9 ? 'text-yellow-400' : 'text-gray-600'} fill-current mx-0.5`} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 18.896l-7.416 3.717 1.48-8.279L.001 9.306l8.332-1.151L12 .587z"/>
@@ -665,10 +682,10 @@ const App: React.FC = () => {
                 </section>
 
 
-                {/* SEÇÃO DE PREÇOS */}
+                {/* PRICING SECTION */}
                 <section id="precos" className="relative py-16 md:py-24">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-16 scroll-reveal">
+                        <div className="text-center mb-16">
                             <h2 className="text-3xl sm:text-5xl font-title rainbow-text mb-4">Escolha o seu Caminho para a Geração de Renda</h2>
                             <p className={`text-xl leading-relaxed text-gray-300 max-w-3xl mx-auto ${accentCyan}`}>
                                 Invista na ferramenta que vai multiplicar sua capacidade de entrega e seus lucros com criação de Landing Pages.
@@ -686,14 +703,14 @@ const App: React.FC = () => {
                                             ? 'rainbow-text' 
                                             : 'text-white';
 
-                                // Classe para o preço
+                                // Class for the price
                                 const priceClass = plan.name === 'Pro' 
                                     ? 'rainbow-pro' 
                                     : plan.name === 'Iniciante'
                                         ? 'rainbow-text'
                                         : 'text-white'; 
                                 
-                                // Classe do botão customizada para cada plano
+                                // Custom button class for each plan
                                 const buttonClass = 
                                     plan.name === 'Iniciante' ? 'neon-button-primary' :
                                     plan.name === 'Pro' ? 'neon-button-pro' :
@@ -702,9 +719,8 @@ const App: React.FC = () => {
                                 return (
                                     <div 
                                         key={plan.name}
-                                        className={`relative bg-[#1a053c]/50 p-8 rounded-xl shadow-2xl border-t-8 flex flex-col scroll-reveal ${plan.borderClass} 
-                                            ${plan.isPopular ? 'scale-[1.02] transition-all duration-300 transform hover:scale-[1.07] hover:shadow-[0_0_30px_rgba(255,0,127,0.9)]' : 'transition-all duration-300 transform hover:scale-[1.05] hover:shadow-[0_0_20px_rgba(0,255,255,0.7)]'} `}
-                                        style={{ transitionDelay: `${index * 0.1}s` }}
+                                        className={`relative bg-[#1a053c]/50 p-8 rounded-xl shadow-2xl border-t-8 flex flex-col 
+                                            ${plan.borderClass} ${plan.isPopular ? 'scale-[1.02] transition-all duration-300 transform hover:scale-[1.07] hover:shadow-[0_0_30px_rgba(255,0,127,0.9)]' : 'transition-all duration-300 transform hover:scale-[1.05] hover:shadow-[0_0_20px_rgba(0,255,255,0.7)]'} `}
                                     >
                                         {plan.isPopular && (
                                             <div className="text-center absolute top-0 right-0 -mt-6 -mr-6">
@@ -712,22 +728,20 @@ const App: React.FC = () => {
                                             </div>
                                         )}
 
-                                        {/* TÍTULO com efeito rainbow dedicado */}
+                                        {/* TITLE with dedicated rainbow effect */}
                                         <h3 className={`text-3xl font-bold mb-4 font-title ${titleClass}`}>{plan.name}</h3> 
                                         <p className="text-sm uppercase text-gray-300 mb-6">{plan.description}</p>
                                         
-                                        {/* PREÇO: Aplica o priceClass ao valor em R$ */}
+                                        {/* PRICE */}
                                         <div className="text-5xl font-title mb-6 text-white">
                                             {plan.price === 'Sob Consulta' 
-                                                // "Sob Consulta" menor e com o efeito rainbow/rápido dedicado
                                                 ? <span className="text-xl font-bold rainbow-enterprise">{plan.price}</span> 
-                                                // Preço do Iniciante e Pro com o efeito rainbow
                                                 : <span className={priceClass}>{`R$ ${plan.price}`}</span>
                                             }
                                             {plan.price !== 'Sob Consulta' && <span className="text-xl font-medium text-gray-400">/mês</span>}
                                         </div> 
                                         
-                                        {/* LISTA DE RECURSOS: Fonte reduzida para text-sm */}
+                                        {/* FEATURES LIST */}
                                         <ul className="space-y-3 text-sm mb-8 flex-grow text-gray-200"> 
                                             {plan.features.map((feature, fIndex) => (
                                                 <li key={fIndex} className="flex items-start">
@@ -736,7 +750,7 @@ const App: React.FC = () => {
                                                 </li>
                                             ))}
                                         </ul>
-                                        {/* BOTÃO com classe customizada e animada */}
+                                        {/* BUTTON */}
                                         <a href="#contato" className={`w-full text-center py-3 text-xl rounded-xl font-bold ${buttonClass}`} onClick={() => playSynthNote('A4')}>
                                             {plan.buttonText}
                                         </a>
@@ -747,14 +761,15 @@ const App: React.FC = () => {
                     </div>
                 </section>
 
-                {/* SEÇÃO FAQ */}
+                {/* FAQ SECTION */}
                 <section id="faq" className="relative py-16 md:py-24">
                     <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 bg-[#000005] p-8 rounded-xl backdrop-blur-md bg-opacity-70 border border-gray-800`}>
-                        <div className="text-center mb-16 scroll-reveal">
+                        <div className="text-center mb-16">
                             <h2 className="text-3xl sm:text-5xl font-title rainbow-text mb-4">Dúvidas Frequentes</h2>
                         </div>
 
                         <div id="accordion-container" className="space-y-4">
+                            {/* FAQ Items - Now with only subtle zoom on hover (hover:scale-[1.02]) */}
                             {faqItems.map(item => (
                                 <FaqItem
                                     key={item.id}
@@ -767,9 +782,9 @@ const App: React.FC = () => {
                     </div>
                 </section>
 
-                {/* SEÇÃO CTA FINAL (CONTATO) */}
+                {/* FINAL CTA SECTION (CONTACT) */}
                 <section id="contato" className="relative py-16 md:py-24 bg-cover bg-center bg-[#0d0126]/90 border-t border-red-500/20">
-                    <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 scroll-reveal">
+                    <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
                         <h2 className="text-4xl sm:text-6xl font-title rainbow-text mb-6 leading-tight">
                             Transforme sua Ideia em Código Profissional.
                         </h2>
@@ -782,7 +797,7 @@ const App: React.FC = () => {
                     </div>
                 </section>
 
-                {/* RODAPÉ */}
+                {/* FOOTER */}
                 <footer className="bg-[#000000]/70 border-t border-cyan-400/30">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -834,4 +849,4 @@ const App: React.FC = () => {
     );
 };
 
-export default App;
+export default LandingPage;
